@@ -158,7 +158,12 @@
             const palabra = PALABRAS_ENTRENADAS[event.key.toLowerCase()];
             if (palabra) {
               const out = document.getElementById("textarea_design");
-              if (out) out.value = palabra;
+              if (out) {
+                // Esperar 5 segundos antes de mostrar la palabra (simular procesamiento)
+                setTimeout(() => {
+                  out.value = palabra;
+                }, 5000);
+              }
             }
           });
 
