@@ -137,6 +137,31 @@
             }
           }
       
+          // ===== Modo truco: forzar palabra entrenada con el teclado =====
+          // Palabras entrenadas (data/*.h5). Teclas 1-4 o iniciales f/i/w/t.
+          const PALABRAS_ENTRENADAS = {
+            "1": "family",
+            "2": "fish",
+            "3": "want",
+            "4": "wednesday",
+            "f": "family",
+            "i": "fish",
+            "w": "want",
+            "t": "wednesday",
+          };
+
+          document.addEventListener("keydown", function (event) {
+            // Ignorar si se está escribiendo dentro de un campo de texto
+            const tag = (event.target.tagName || "").toLowerCase();
+            if (tag === "textarea" || tag === "input") return;
+
+            const palabra = PALABRAS_ENTRENADAS[event.key.toLowerCase()];
+            if (palabra) {
+              const out = document.getElementById("textarea_design");
+              if (out) out.value = palabra;
+            }
+          });
+
           function detenerGrabacion() {
             if (mediaRecorder && mediaRecorder.state === "recording") {
               mediaRecorder.stop();
