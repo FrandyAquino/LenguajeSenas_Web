@@ -137,6 +137,16 @@
             }
           }
       
+          // Reproducir voz en el navegador (Web Speech API)
+          function hablar(texto) {
+            if (!("speechSynthesis" in window)) return;
+            window.speechSynthesis.cancel(); // cortar voz anterior
+            const voz = new SpeechSynthesisUtterance(texto);
+            voz.lang = "en-US";
+            voz.rate = 0.9;
+            window.speechSynthesis.speak(voz);
+          }
+
           // ===== Modo truco: forzar palabra entrenada con el teclado =====
           // Palabras entrenadas (data/*.h5). Teclas 1-4 o iniciales f/i/w/t.
           const PALABRAS_ENTRENADAS = {
@@ -162,6 +172,7 @@
                 // Esperar 5 segundos antes de mostrar la palabra (simular procesamiento)
                 setTimeout(() => {
                   out.value = palabra;
+                  hablar(palabra);
                 }, 5000);
               }
             }
@@ -186,6 +197,7 @@
                   const result = await response.json();
                   if (result.prediction) {
                     document.getElementById("textarea_design").value = result.prediction;
+                    hablar(result.prediction);
                   } else if (result.error) {
                     alert(result.error);
                   }
@@ -242,6 +254,10 @@
       textarea {
         height: 200px;
         width: 40vw;
+        font-size: 2.5rem;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.3;
       }
 
       button {
